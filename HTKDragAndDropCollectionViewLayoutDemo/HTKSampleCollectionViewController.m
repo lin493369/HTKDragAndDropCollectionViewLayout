@@ -51,6 +51,7 @@
     self.title = @"Drag & Drop Demo";
     // Add button that will "add" item to demo
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(userDidTapAddButton:)];
+    [self.collectionView setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)viewDidLoad {
@@ -62,15 +63,14 @@
     
     // Setup item size
     HTKDragAndDropCollectionViewLayout *flowLayout = (HTKDragAndDropCollectionViewLayout *)self.collectionView.collectionViewLayout;
-  
+    self.collectionView.frame = CGRectMake(0, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT/2);
     flowLayout.itemSize = CGSizeMake(SCREEN_WIDTH/2, 100);
     flowLayout.minimumInteritemSpacing = 0;
     flowLayout.lineSpacing = 0;
-    flowLayout.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
-//    flowLayout.headerReferenceSize = CGSizeMake(100, 100);
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
+   
 }
 
-#pragma mark - User Actions
 
 - (void)userDidTapAddButton:(id)sender {
     // Called when user taps the "+" button in nav bar
@@ -78,7 +78,7 @@
     NSUInteger count = self.dataArray.count;
     NSString *newItem = [NSString stringWithFormat:@"%lu", count];
     [self.dataArray addObject:newItem];
-    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:count inSection:0]]];
+    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:count inSection:1]]];
     
 }
 
@@ -86,41 +86,22 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     
-    return 2;
+    return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == 0) {
-        
-        return 1;
-    }
+   
     return self.dataArray.count;
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        return CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT/2);
-    }
-    return CGSizeMake(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-}
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        HTKSampleCollectionViewCell *cell = (HTKSampleCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:HTKDraggableCollectionViewCellIdentifier forIndexPath:indexPath];
-        
-        // Set number on cell
-        cell.numberLabel.text = @"hello";
-//        cell.frame = CGRectMake(0, 0, SCREEN_WIDTH, 100);
-        // Set our delegate for dragging
-        cell.draggingDelegate = self;
-        
-        return cell;
 
-    }
     HTKSampleCollectionViewCell *cell = (HTKSampleCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:HTKDraggableCollectionViewCellIdentifier forIndexPath:indexPath];
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(click:)];
         gesture.numberOfTapsRequired = 1;
         [cell addGestureRecognizer:gesture];
-    cell.tag = indexPath.row;
+    cell.tag = indexPath.row+1;
     // Set number on cell
     cell.numberLabel.text = self.dataArray[indexPath.row];
 //    cell.backgroundColor = [UIColor blueColor];
@@ -136,6 +117,9 @@
 #pragma mark - HTKDraggableCollectionViewCellDelegate
 
 - (BOOL)userCanDragCell:(UICollectionViewCell *)cell {
+    if (cell.tag == 0) {
+        return YES;
+    }
     // All cells can be dragged in this demo
     return YES;
 }

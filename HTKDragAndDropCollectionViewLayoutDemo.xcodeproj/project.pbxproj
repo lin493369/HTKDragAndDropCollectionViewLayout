@@ -16,6 +16,7 @@
 		0E184B871A0FBA060017FF75 /* HTKDragAndDropCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E184B831A0FBA060017FF75 /* HTKDragAndDropCollectionViewLayout.m */; };
 		0E184B881A0FBA060017FF75 /* HTKDragAndDropCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E184B851A0FBA060017FF75 /* HTKDragAndDropCollectionViewController.m */; };
 		0E184B8B1A0FBBF80017FF75 /* HTKSampleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E184B8A1A0FBBF80017FF75 /* HTKSampleCollectionViewCell.m */; };
+		8488B15E1CB38E8B008D6596 /* HeaderCRView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8488B15D1CB38E8B008D6596 /* HeaderCRView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		0E184B891A0FBBF80017FF75 /* HTKSampleCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTKSampleCollectionViewCell.h; sourceTree = "<group>"; };
 		0E184B8A1A0FBBF80017FF75 /* HTKSampleCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTKSampleCollectionViewCell.m; sourceTree = "<group>"; };
 		0E184B8C1A0FC8140017FF75 /* HTKDragAndDropCollectionViewLayoutConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTKDragAndDropCollectionViewLayoutConstants.h; sourceTree = "<group>"; };
+		8488B15C1CB38E8B008D6596 /* HeaderCRView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderCRView.h; sourceTree = "<group>"; };
+		8488B15D1CB38E8B008D6596 /* HeaderCRView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderCRView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +98,8 @@
 				0E184B611A0FB90B0017FF75 /* HTKSampleCollectionViewController.m */,
 				0E184B891A0FBBF80017FF75 /* HTKSampleCollectionViewCell.h */,
 				0E184B8A1A0FBBF80017FF75 /* HTKSampleCollectionViewCell.m */,
+				8488B15C1CB38E8B008D6596 /* HeaderCRView.h */,
+				8488B15D1CB38E8B008D6596 /* HeaderCRView.m */,
 				0E184B661A0FB90B0017FF75 /* Images.xcassets */,
 				0E184B681A0FB90B0017FF75 /* LaunchScreen.xib */,
 				0E184B591A0FB90B0017FF75 /* Supporting Files */,
@@ -226,6 +231,7 @@
 			files = (
 				0E184B621A0FB90B0017FF75 /* HTKSampleCollectionViewController.m in Sources */,
 				0E184B881A0FBA060017FF75 /* HTKDragAndDropCollectionViewController.m in Sources */,
+				8488B15E1CB38E8B008D6596 /* HeaderCRView.m in Sources */,
 				0E184B8B1A0FBBF80017FF75 /* HTKSampleCollectionViewCell.m in Sources */,
 				0E184B861A0FBA060017FF75 /* HTKDraggableCollectionViewCell.m in Sources */,
 				0E184B5F1A0FB90B0017FF75 /* AppDelegate.m in Sources */,
@@ -416,6 +422,7 @@
 				0E184B7B1A0FB90B0017FF75 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0E184B7C1A0FB90B0017FF75 /* Build configuration list for PBXNativeTarget "HTKDragAndDropCollectionViewLayoutDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +431,7 @@
 				0E184B7E1A0FB90B0017FF75 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
