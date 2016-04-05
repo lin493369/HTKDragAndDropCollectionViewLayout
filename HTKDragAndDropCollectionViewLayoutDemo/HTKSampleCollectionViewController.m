@@ -20,7 +20,8 @@
 
 #import "HTKSampleCollectionViewController.h"
 #import "HTKSampleCollectionViewCell.h"
-
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 @interface HTKSampleCollectionViewController ()
 
 /**
@@ -37,7 +38,7 @@
     if (self) {
         // Create Array for Demo data and fill it with some items
         _dataArray = [NSMutableArray array];
-        for (NSUInteger i = 0; i < 15; i++) {
+        for (NSUInteger i = 0; i < 6; i++) {
             [_dataArray addObject:[NSString stringWithFormat:@"%lu", i]];
         }
         [self setup];
@@ -61,11 +62,12 @@
     
     // Setup item size
     HTKDragAndDropCollectionViewLayout *flowLayout = (HTKDragAndDropCollectionViewLayout *)self.collectionView.collectionViewLayout;
-    CGFloat itemWidth = CGRectGetWidth(self.collectionView.bounds) / 2 - 40;
-    flowLayout.itemSize = CGSizeMake(itemWidth, itemWidth);
-    flowLayout.minimumInteritemSpacing = 20;
-    flowLayout.lineSpacing = 20;
-    flowLayout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
+  
+    flowLayout.itemSize = CGSizeMake(SCREEN_WIDTH/2, 100);
+    flowLayout.minimumInteritemSpacing = 0;
+    flowLayout.lineSpacing = 0;
+    flowLayout.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
+//    flowLayout.headerReferenceSize = CGSizeMake(100, 100);
 }
 
 #pragma mark - User Actions
@@ -77,31 +79,60 @@
     NSString *newItem = [NSString stringWithFormat:@"%lu", count];
     [self.dataArray addObject:newItem];
     [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:count inSection:0]]];
+    
 }
 
 #pragma mark - UICollectionView Datasource/Delegate
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    
+    return 2;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (section == 0) {
+        
+        return 1;
+    }
     return self.dataArray.count;
+}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        return CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT/2);
+    }
+    return CGSizeMake(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (indexPath.section == 0) {
+        HTKSampleCollectionViewCell *cell = (HTKSampleCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:HTKDraggableCollectionViewCellIdentifier forIndexPath:indexPath];
+        
+        // Set number on cell
+        cell.numberLabel.text = @"hello";
+//        cell.frame = CGRectMake(0, 0, SCREEN_WIDTH, 100);
+        // Set our delegate for dragging
+        cell.draggingDelegate = self;
+        
+        return cell;
+
+    }
     HTKSampleCollectionViewCell *cell = (HTKSampleCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:HTKDraggableCollectionViewCellIdentifier forIndexPath:indexPath];
-    
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(click:)];
+        gesture.numberOfTapsRequired = 1;
+        [cell addGestureRecognizer:gesture];
+    cell.tag = indexPath.row;
     // Set number on cell
     cell.numberLabel.text = self.dataArray[indexPath.row];
-    
+//    cell.backgroundColor = [UIColor blueColor];
     // Set our delegate for dragging
     cell.draggingDelegate = self;
     
     return cell;
 }
-
+-(void)click:(UITapGestureRecognizer *)sender{
+    
+    NSLog(@"click %li",sender.view.tag);
+}
 #pragma mark - HTKDraggableCollectionViewCellDelegate
 
 - (BOOL)userCanDragCell:(UICollectionViewCell *)cell {

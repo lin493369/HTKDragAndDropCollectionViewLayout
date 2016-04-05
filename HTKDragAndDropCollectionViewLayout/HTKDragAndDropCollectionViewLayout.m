@@ -339,15 +339,30 @@
     }];
 }
 
+//- (void)exchangeItemsIfNeeded {
+//    // Exchange objects if we're touching.
+//    NSIndexPath *intersectPath = [self indexPathBelowDraggedItemAtPoint:self.draggedCellCenter];
+//    UICollectionViewLayoutAttributes *attributes = self.itemDictionary[intersectPath];
+//    
+//    // Create a "hit area" that's 20 pt over the center of the intersected cell center
+//    CGRect centerBox = CGRectMake(attributes.center.x - HTKDragAndDropCenterTriggerOffset, attributes.center.y - HTKDragAndDropCenterTriggerOffset, HTKDragAndDropCenterTriggerOffset * 2, HTKDragAndDropCenterTriggerOffset * 2);
+//    // Determine if we need to move items around
+//    if (intersectPath != nil && ![intersectPath isEqual:self.draggedIndexPath] && CGRectContainsPoint(centerBox, self.draggedCellCenter)) {
+//        [self insertDraggedItemAtIndexPath:intersectPath];
+//    }
+//}
 - (void)exchangeItemsIfNeeded {
     // Exchange objects if we're touching.
     NSIndexPath *intersectPath = [self indexPathBelowDraggedItemAtPoint:self.draggedCellCenter];
     UICollectionViewLayoutAttributes *attributes = self.itemDictionary[intersectPath];
+    if (!attributes) return;  // add it for skip attributes == nil
     
+    // ---->use attributes.frame not centerBox
     // Create a "hit area" that's 20 pt over the center of the intersected cell center
-    CGRect centerBox = CGRectMake(attributes.center.x - HTKDragAndDropCenterTriggerOffset, attributes.center.y - HTKDragAndDropCenterTriggerOffset, HTKDragAndDropCenterTriggerOffset * 2, HTKDragAndDropCenterTriggerOffset * 2);
+    //    CGRect centerBox = CGRectMake(attributes.center.x - HTKDragAndDropCenterTriggerOffset, attributes.center.y - HTKDragAndDropCenterTriggerOffset, HTKDragAndDropCenterTriggerOffset * 5, HTKDragAndDropCenterTriggerOffset * 5);
+    
     // Determine if we need to move items around
-    if (intersectPath != nil && ![intersectPath isEqual:self.draggedIndexPath] && CGRectContainsPoint(centerBox, self.draggedCellCenter)) {
+    if (intersectPath != nil && ![intersectPath isEqual:self.draggedIndexPath] && CGRectContainsPoint(attributes.frame, self.draggedCellCenter)) {
         [self insertDraggedItemAtIndexPath:intersectPath];
     }
 }
@@ -357,9 +372,8 @@
 }
 
 #pragma mark - Helper Methods
-
 - (NSIndexPath *)indexPathBelowDraggedItemAtPoint:(CGPoint)point {
-        
+    
     __block NSIndexPath *indexPathBelow = nil;
     __weak HTKDragAndDropCollectionViewLayout *weakSelf = self;
     
@@ -372,16 +386,41 @@
         }
         UICollectionViewLayoutAttributes *attribute = weakSelf.itemDictionary[indexPath];
         
+        // ---->use attributes.frame not centerBox
         // Create a "hit area" that's 20 pt over the center of the testing cell
-        CGRect centerBox = CGRectMake(attribute.center.x - HTKDragAndDropCenterTriggerOffset, attribute.center.y - HTKDragAndDropCenterTriggerOffset, HTKDragAndDropCenterTriggerOffset * 2, HTKDragAndDropCenterTriggerOffset * 2);
-        if (CGRectContainsPoint(centerBox, weakSelf.draggedCellCenter)) {
+        //        CGRect centerBox = CGRectMake(attribute.center.x - HTKDragAndDropCenterTriggerOffset, attribute.center.y - HTKDragAndDropCenterTriggerOffset, attribute.frame.size.width/2, attribute.frame.size.height/2);
+        if (CGRectContainsPoint(attribute.frame, weakSelf.draggedCellCenter)) {
             indexPathBelow = indexPath;
             *stop = YES;
         }
     }];
-
+    
     return indexPathBelow;
 }
+//- (NSIndexPath *)indexPathBelowDraggedItemAtPoint:(CGPoint)point {
+//        
+//    __block NSIndexPath *indexPathBelow = nil;
+//    __weak HTKDragAndDropCollectionViewLayout *weakSelf = self;
+//    
+//    [self.collectionView.indexPathsForVisibleItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        NSIndexPath *indexPath = (NSIndexPath *)obj;
+//        
+//        // Skip our dragged cell
+//        if ([self.draggedIndexPath isEqual:indexPath]) {
+//            return;
+//        }
+//        UICollectionViewLayoutAttributes *attribute = weakSelf.itemDictionary[indexPath];
+//        
+//        // Create a "hit area" that's 20 pt over the center of the testing cell
+//        CGRect centerBox = CGRectMake(attribute.center.x - HTKDragAndDropCenterTriggerOffset, attribute.center.y - HTKDragAndDropCenterTriggerOffset, HTKDragAndDropCenterTriggerOffset * 2, HTKDragAndDropCenterTriggerOffset * 2);
+//        if (CGRectContainsPoint(centerBox, weakSelf.draggedCellCenter)) {
+//            indexPathBelow = indexPath;
+//            *stop = YES;
+//        }
+//    }];
+//
+//    return indexPathBelow;
+//}
 
 - (void)insertItemAtIndexPath:(NSIndexPath *)indexPath {
     // get attributes of item before this inserted one

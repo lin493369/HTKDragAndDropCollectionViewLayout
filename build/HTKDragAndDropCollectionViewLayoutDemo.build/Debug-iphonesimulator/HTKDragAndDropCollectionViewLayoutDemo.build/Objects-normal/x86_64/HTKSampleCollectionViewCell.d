@@ -1,0 +1,4 @@
+dependencies: \
+  /Users/admin/Desktop/project/HTKDragAndDropCollectionViewLayout/HTKDragAndDropCollectionViewLayoutDemo/HTKSampleCollectionViewCell.m \
+  /Users/admin/Desktop/project/HTKDragAndDropCollectionViewLayout/HTKDragAndDropCollectionViewLayoutDemo/HTKSampleCollectionViewCell.h \
+  /Users/admin/Desktop/project/HTKDragAndDropCollectionViewLayout/HTKDragAndDropCollectionViewLayout/HTKDraggableCollectionViewCell.h
